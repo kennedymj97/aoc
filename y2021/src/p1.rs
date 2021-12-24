@@ -1,14 +1,23 @@
-pub fn count_depth_increases(depths: Vec<i32>) -> i32 {
-    struct Acc<'a> {
-        count: i32,
-        prev: &'a i32,
+pub fn p1a(depths: &str) -> u32 {
+    count_depth_increases(depths.lines().map(|depth| depth.parse().unwrap()))
+}
+
+pub fn p1b(depths: &str) -> u32 {
+    count_depth_increases_sliding_window(
+        depths.lines().map(|depth| depth.parse().unwrap()).collect(),
+    )
+}
+
+fn count_depth_increases<I: Iterator<Item = u32>>(depths: I) -> u32 {
+    struct Acc {
+        count: u32,
+        prev: u32,
     }
     depths
-        .iter()
         .fold(
             Acc {
                 count: 0,
-                prev: &std::i32::MAX,
+                prev: std::u32::MAX,
             },
             |acc, depth| {
                 if depth > acc.prev {
@@ -26,7 +35,7 @@ pub fn count_depth_increases(depths: Vec<i32>) -> i32 {
         .count
 }
 
-pub fn count_depth_increases_sliding_window(depths: Vec<i32>) -> i32 {
+fn count_depth_increases_sliding_window(depths: Vec<u32>) -> u32 {
     if depths.len() < 3 {
         return 0;
     }
@@ -49,17 +58,17 @@ mod tests {
                                                          // sliding window all_increase
                                                          // 6, 9, 12, 15, 18, 21 // 5 increase
         let all_decrease = vec![8, 7, 6, 5, 4, 3, 2, 1]; // 0 increase
-        let empty: Vec<i32> = vec![]; // 0 increase
+        let empty: Vec<u32> = vec![]; // 0 increase
         let mix = vec![1, 3, 2, 4, 5, 6, 1, 2, 0, 3, 1, 6, 8, 2]; // 8 increase
                                                                   // sliding window mix
                                                                   // 6, 9, 11, 15, 12, 9, 3, 5, 4, 10, 15, 16 // 7 increase
         let equal = vec![4, 4, 4, 4, 4, 4, 4]; // 0 increase
 
-        assert_eq!(count_depth_increases(all_increase.clone()), 7);
-        assert_eq!(count_depth_increases(all_decrease.clone()), 0);
-        assert_eq!(count_depth_increases(empty.clone()), 0);
-        assert_eq!(count_depth_increases(mix.clone()), 8);
-        assert_eq!(count_depth_increases(equal.clone()), 0);
+        assert_eq!(count_depth_increases(all_increase.clone().into_iter()), 7);
+        assert_eq!(count_depth_increases(all_decrease.clone().into_iter()), 0);
+        assert_eq!(count_depth_increases(empty.clone().into_iter()), 0);
+        assert_eq!(count_depth_increases(mix.clone().into_iter()), 8);
+        assert_eq!(count_depth_increases(equal.clone().into_iter()), 0);
 
         assert_eq!(count_depth_increases_sliding_window(all_increase), 5);
         assert_eq!(count_depth_increases_sliding_window(all_decrease), 0);
