@@ -27,6 +27,67 @@ fn p3a_aux(report: &str, width: usize) -> i32 {
         * i32::from_str_radix(epsillon.as_str(), 2).unwrap()
 }
 
+pub fn p3b(report: &str) -> u32 {
+    p3b_aux(report, 12)
+}
+
+fn p3b_aux(report: &str, width: usize) -> u32 {
+    let mut ogr: Vec<u32> = report
+        .lines()
+        .map(|bits| u32::from_str_radix(bits, 2).unwrap())
+        .collect();
+    for bit_pos in 0..width {
+        let common_bit = ogr
+            .iter()
+            .fold(0, |acc, bin| match (bin >> (width - bit_pos - 1)) & 1 {
+                0 => acc - 1,
+                1 => acc + 1,
+                _ => unreachable!(),
+            });
+        ogr = ogr
+            .into_iter()
+            .filter(|bin| {
+                if common_bit < 0 {
+                    (bin >> (width - bit_pos - 1)) & 1 == 0
+                } else {
+                    (bin >> (width - bit_pos - 1)) & 1 == 1
+                }
+            })
+            .collect();
+        if ogr.len() == 1 {
+            break;
+        }
+    }
+
+    let mut csr: Vec<u32> = report
+        .lines()
+        .map(|bits| u32::from_str_radix(bits, 2).unwrap())
+        .collect();
+    for bit_pos in 0..width {
+        let common_bit = csr
+            .iter()
+            .fold(0, |acc, bin| match (bin >> (width - bit_pos - 1)) & 1 {
+                0 => acc - 1,
+                1 => acc + 1,
+                _ => unreachable!(),
+            });
+        csr = csr
+            .into_iter()
+            .filter(|bin| {
+                if common_bit < 0 {
+                    (bin >> (width - bit_pos - 1)) & 1 == 1
+                } else {
+                    (bin >> (width - bit_pos - 1)) & 1 == 0
+                }
+            })
+            .collect();
+        if csr.len() == 1 {
+            break;
+        }
+    }
+    ogr[0] * csr[0]
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -46,6 +107,7 @@ mod tests {
 00010
 01010";
 
-        assert_eq!(p3a_aux(input, 5), 198)
+        assert_eq!(p3a_aux(input, 5), 198);
+        assert_eq!(p3b_aux(input, 5), 230);
     }
 }

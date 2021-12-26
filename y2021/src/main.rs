@@ -6,4 +6,5 @@ fn main() {
     println!("p2a: {}", p2::p2a(include_str!("./inputs/p2.txt")));
     println!("p2b: {}", p2::p2b(include_str!("./inputs/p2.txt")));
     println!("p3a: {}", p3::p3a(include_str!("./inputs/p3.txt")));
+    println!("p3b: {}", p3::p3b(include_str!("./inputs/p3.txt")));
 }
