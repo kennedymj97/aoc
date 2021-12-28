@@ -1,4 +1,4 @@
-use y2021::{p1, p2, p3, p4};
+use y2021::{p1, p2, p3, p4, p5};
 
 fn main() {
     println!("p1a: {}", p1::p1a(include_str!("./inputs/p1.txt")));
@@ -9,4 +9,6 @@ fn main() {
     println!("p3b: {}", p3::p3b(include_str!("./inputs/p3.txt")));
     println!("p4a: {}", p4::p4a(include_str!("./inputs/p4.txt")));
     println!("p4b: {}", p4::p4b(include_str!("./inputs/p4.txt")));
+    println!("p5a: {}", p5::p5a(include_str!("./inputs/p5.txt")));
+    println!("p5b: {}", p5::p5b(include_str!("./inputs/p5.txt")));
 }
