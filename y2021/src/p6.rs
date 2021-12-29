@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 pub fn p6a(input: &str) -> u64 {
     let mut fish: Vec<u64> = input.split(',').map(|v| v.parse().unwrap()).collect();
     for _ in 0..80 {
